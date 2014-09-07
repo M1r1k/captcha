@@ -271,11 +271,11 @@ function captcha_element_process(array $element, FormStateInterface $form_state,
  * Render it in a section element if a description of the CAPTCHA
  * is available. Render it as is otherwise.
  */
-function theme_captcha($variables) {
+function template_preprocess_captcha(&$variables) {
   $element = $variables['element'];
 
   if (!empty($element['#description']) && isset($element['captcha_widgets'])) {
-    $fieldset = array(
+    $variables['details'] = array(
       '#type' => 'details',
       '#title' => t('CAPTCHA'),
       '#description' => $element['#description'],
@@ -286,10 +286,6 @@ function theme_captcha($variables) {
       ),
       '#open' => TRUE,
     );
-    return _theme('details', array('element' => $fieldset));
-  }
-  else {
-    return '<div class="captcha">' . drupal_render_children($element) . '</div>';
   }
 }
 
@@ -582,7 +578,7 @@ function captcha_validate($element, &$form_state) {
     // Unknown challenge_id.
     // TODO: this probably never happens anymore now that there is detection
     // for CAPTCHA session reuse attacks in _captcha_get_posted_captcha_info().
-    form_set_error('captcha', $form_state, t('CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site administrator if this problem persists.'));
+    $form_state->setErrorByName('captcha', t('CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site administrator if this problem persists.'));
     watchdog('CAPTCHA',
       'CAPTCHA validation error: unknown CAPTCHA session ID (%csid).',
       array('%csid' => var_export($csid, TRUE)),
@@ -615,7 +611,7 @@ function captcha_validate($element, &$form_state) {
         ->expression('attempts', 'attempts + 1')
         ->execute();
 
-      form_set_error('captcha_response', $form_state, t('The answer you entered for the CAPTCHA was not correct.'));
+      $form_state->setErrorByName('captcha_response', t('The answer you entered for the CAPTCHA was not correct.'));
       // Update wrong response counter.
       if (\Drupal::config('captcha.settings')->get('captcha_enable_stats', FALSE)) {
         Drupal::state()->set('captcha_wrong_response_counter', Drupal::state()->get('captcha_wrong_response_counter', 0) + 1);

@@ -83,7 +83,7 @@ class CaptchaTestCase extends CaptchaBaseWebTestCase {
 
     // Post comment on node.
     $edit = $this->getCommentFormValues();
-    $comment_subject = $edit['subject'];
+    $comment_subject = $edit['subject[0][value]'];
     $comment_body = $edit['comment_body[0][value]'];
     $edit['captcha_response'] = $captcha_response;
     $this->drupalPostForm('comment/reply/node/' . $node->id() . '/comment', $edit, t('Save'), array(), array(), 'comment-form');
@@ -195,7 +195,8 @@ class CaptchaTestCase extends CaptchaBaseWebTestCase {
     captcha_set_form_id_setting('user_login_form', 'captcha/Math');
 
     // Check if there is a CAPTCHA on home page.
-    $this->drupalGet('node');
+    // @todo This assumes standard profile login form block, manually add it?
+    $this->drupalGet('');
     $this->assertCaptchaPresence(TRUE);
 
     // Check there is a CAPTCHA on "forbidden" admin pages.
