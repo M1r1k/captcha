@@ -13,6 +13,11 @@ use Drupal\Core\Form\FormStateInterface;
 interface CaptchaInterface extends PluginInspectionInterface {
 
   /**
+   * @todo place docs here.
+   */
+  public function getSolutionValue();
+
+  /**
    * Provide form item that contains captcha question.
    *
    * Examples: for Math Captcha it should return text markup

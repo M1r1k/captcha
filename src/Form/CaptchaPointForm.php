@@ -74,7 +74,7 @@ class CaptchaPointForm extends EntityForm implements ContainerInjectionInterface
       '#default_value' => ($captcha_point->getCaptchaType() ?: $this->config('captcha.settings')->get('captcha_default_challenge')),
       '#options' => array_map(function ($plugin_definition) {
         return $plugin_definition['title'];
-      },$this->captchaPluginManager->getDefinitions()),
+      }, $this->captchaPluginManager->getDefinitions()),
     );
 
     return $form;

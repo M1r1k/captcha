@@ -5,7 +5,7 @@
  * Contains \Drupal\captcha\Plugin\CaptchaBase.
  */
 
-namespace Drupal\catpcha\Plugin;
+namespace Drupal\captcha\Plugin\Captcha;
 
 use Drupal\captcha\Plugin\CaptchaInterface;
 use Drupal\Core\Form\FormStateInterface;

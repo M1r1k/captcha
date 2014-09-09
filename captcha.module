@@ -11,6 +11,7 @@
 
 use Drupal\captcha\CaptchaPluginManager;
 use Drupal\captcha\Entity\CaptchaPoint;
+use Drupal\captcha\Plugin\CaptchaInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -199,8 +200,6 @@ function captcha_element_process(array $element, FormStateInterface $form_state,
   );
 
   // Get implementing module and challenge for CAPTCHA.
-  list($captcha_type_module, $captcha_type_challenge) = _captcha_parse_captcha_type($element['#captcha_type']);
-
   // Store CAPTCHA information for further processing in
   // - $form_state['captcha_info'], which survives a form rebuild (e.g. node
   //   preview), useful in _captcha_get_posted_captcha_info().
@@ -226,8 +225,9 @@ function captcha_element_process(array $element, FormStateInterface $form_state,
     // (note that the CAPTCHA session ID is given as third argument).
     $captcha = \Drupal::moduleHandler()->invoke($captcha_type_module, 'captcha', array('generate', $captcha_type_challenge, $captcha_sid));
 
+    /* @var $captcha_plugin CaptchaInterface */
     $captcha_plugin = $captcha_manager->createInstance($element['#captcha_type']);
-    if (!isset($captcha['form']) || !isset($captcha['solution'])) {
+    if (!$captcha_plugin) {
       // The selected module did not return what we expected: log about it and quit.
       \Drupal::logger('CAPTCHA')->error(
         'CAPTCHA problem: unexpected result from hook_captcha() of module %module when trying to retrieve challenge type %type for form %form_id.',
@@ -237,7 +237,8 @@ function captcha_element_process(array $element, FormStateInterface $form_state,
       return $element;
     }
     // Add form elements from challenge as children to CAPTCHA form element.
-    $element['captcha_widgets'] = $captcha['form'];
+    $element['captcha_widgets_question'] = $captcha_plugin->getQuestionFormElement($complete_form, $form_state);
+    $element['captcha_widgets_answer'] = $captcha_plugin->getAnswerFormElement($complete_form, $form_state);
 
     // Add a validation callback for the CAPTCHA form element
     // (when not in admin mode).
@@ -250,6 +251,19 @@ function captcha_element_process(array $element, FormStateInterface $form_state,
       $element['#captcha_validate'] = $captcha['captcha_validate'];
     }
 
+    // Store CAPTCHA information for further processing in
+    // - $form_state['captcha_info'], which survives a form rebuild (e.g. node
+    //   preview), useful in _captcha_get_posted_captcha_info().
+    // - $element['#captcha_info'], for post processing functions that do not
+    //   receive a $form_state argument (e.g. the pre_render callback).
+    $form_state['captcha_info'] = array(
+      'this_form_id' => $this_form_id,
+      'posted_form_id' => $posted_form_id,
+      'captcha_sid' => $captcha_sid,
+//      'module' => $captcha_type_module,
+      'captcha_type' => $captcha_plugin->getPluginId(),
+    );
+
     // Set the theme function.
     $element['#theme'] = 'captcha';
 
@@ -260,7 +274,7 @@ function captcha_element_process(array $element, FormStateInterface $form_state,
     $element['#pre_render'][] = 'captcha_pre_render_process';
 
     // Store the solution in the #captcha_info array.
-    $element['#captcha_info']['solution'] = $captcha['solution'];
+    $element['#captcha_info']['solution'] = $captcha_plugin->getSolutionValue();
 
     // Make sure we can use a top level form value
     // $form_state['values']['captcha_response'], even if the form has #tree=true.

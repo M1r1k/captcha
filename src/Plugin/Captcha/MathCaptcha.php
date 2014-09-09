@@ -7,7 +7,7 @@
 
 namespace Drupal\captcha\Plugin\Captcha;
 
-use Drupal\catpcha\Plugin\CaptchaBase;
+use Drupal\captcha\Plugin\Captcha\CaptchaBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -99,4 +99,10 @@ class MathCaptcha extends CaptchaBase {
     return $this->t('Math');
   }
 
+  /**
+   * @todo place docs here.
+   */
+  public function getSolutionValue() {
+    return $this->solution;
+  }
 }
