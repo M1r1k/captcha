@@ -1,0 +1,4 @@
+services:
+  plugin.manager.captcha:
+    class: Drupal\captcha\CaptchaPluginManager
+    parent: default_plugin_manager

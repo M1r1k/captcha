@@ -1,0 +1,3 @@
+services:
+ controller.image_captcha:
+  class: Drupal\image_captcha\Controller\CaptchaImageGenerator
