@@ -51,7 +51,7 @@ interface CaptchaInterface extends PluginInspectionInterface {
    *
    * @return boolean
    */
-  public function validate(array $values);
+  public static function validate(array $values);
 
   /**
    * Get description of Captcha challenge.

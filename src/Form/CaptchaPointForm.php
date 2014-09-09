@@ -7,11 +7,38 @@
 
 namespace Drupal\captcha\Form;
 
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\captcha\CaptchaPointInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\captcha\CaptchaPluginManager;
 
-class CaptchaPointForm extends EntityForm {
+class CaptchaPointForm extends EntityForm implements ContainerInjectionInterface {
+
+  /**
+   * @var CaptchaPluginManager
+   */
+  protected $captchaPluginManager;
+
+  /**
+   * Constructor of CaptchaPointForm.
+   *
+   * @param CaptchaPluginManager $captchaPluginManager
+   *   Required for fetching captcha types.
+   */
+  public function __construct(CaptchaPluginManager $captchaPluginManager) {
+    $this->captchaPluginManager = $captchaPluginManager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('plugin.manager.captcha')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -44,8 +71,10 @@ class CaptchaPointForm extends EntityForm {
       '#type' => 'select',
       '#title' => t('Challenge type'),
       '#description' => t('The CAPTCHA type to use for this form.'),
-      '#default_value' => ($captcha_point->getCaptchaType() ?: $this->config('captcha.settings')->get('default_challenge')),
-      '#options' => _captcha_available_challenge_types(),
+      '#default_value' => ($captcha_point->getCaptchaType() ?: $this->config('captcha.settings')->get('captcha_default_challenge')),
+      '#options' => array_map(function ($plugin_definition) {
+        return $plugin_definition['title'];
+      },$this->captchaPluginManager->getDefinitions()),
     );
 
     return $form;

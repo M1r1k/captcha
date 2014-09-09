@@ -9,6 +9,7 @@
  * to solve.
  */
 
+use Drupal\captcha\CaptchaPluginManager;
 use Drupal\captcha\Entity\CaptchaPoint;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -218,9 +219,14 @@ function captcha_element_process(array $element, FormStateInterface $form_state,
   );
 
   if (_captcha_required_for_user($captcha_sid, $this_form_id) || $element['#captcha_admin_mode']) {
+    /* @var $captcha_manager CaptchaPluginManager */
+    $captcha_manager = \Drupal::service('plugin.manager.captcha');
+
     // Generate a CAPTCHA and its solution
     // (note that the CAPTCHA session ID is given as third argument).
     $captcha = \Drupal::moduleHandler()->invoke($captcha_type_module, 'captcha', array('generate', $captcha_type_challenge, $captcha_sid));
+
+    $captcha_plugin = $captcha_manager->createInstance($element['#captcha_type']);
     if (!isset($captcha['form']) || !isset($captcha['solution'])) {
       // The selected module did not return what we expected: log about it and quit.
       \Drupal::logger('CAPTCHA')->error(

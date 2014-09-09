@@ -16,7 +16,7 @@ use Drupal\Core\Form\FormStateInterface;
  * @package Drupal\captcha\Plugin\Captcha
  *
  * @CaptchaPlugin(
- *   id = "math_captcha",
+ *   id = "math",
  *   title = @Translation("Math Captcha")
  * )
  */
@@ -35,6 +35,24 @@ class MathCaptcha extends CaptchaBase {
    * @var int
    */
   protected $secondAddendum;
+
+  /**
+   * Diff of first and second addendums.
+   *
+   * @var int
+   */
+  protected $solution;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+
+    $this->firstAddendum = mt_rand(1, 20);
+    $this->solution = mt_rand(1, $this->firstAddendum);
+    $this->secondAddendum = $this->solution + $this->firstAddendum;
+  }
 
   /**
    * {@inheritdoc}
@@ -66,8 +84,8 @@ class MathCaptcha extends CaptchaBase {
   /**
    * {@inheritdoc}
    */
-  public function validate(array $values) {
-    return $values['sum'] == $this->firstAddendum + $this->secondAddendum;
+  public static function validate(array $values) {
+    return $values['sum'] == TRUE;
   }
 
   /**
