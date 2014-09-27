@@ -42,7 +42,7 @@ class CaptchaPointDeleteForm extends EntityConfirmFormBase {
   public function submit(array $form, FormStateInterface $form_state) {
     $this->entity->delete();
     drupal_set_message($this->t('Captcha point %label has been deleted.', array('%label' => $this->entity->label())));
-    $form_state['redirect_route'] = $this->getCancelRoute();
+    $form_state->setRedirect($this->getCancelRoute());
   }
 
   /**

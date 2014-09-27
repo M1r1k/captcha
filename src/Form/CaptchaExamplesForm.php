@@ -53,7 +53,6 @@ class CaptchaExamplesForm extends ConfigFormBase {
     $module = $this->getRequest()->get('module');
     $challenge = $this->getRequest()->get('challenge');
 
-    $form = array();
     if ($module && $challenge) {
       // Generate 10 example challenges.
       for ($i = 0; $i < 10; $i++) {
