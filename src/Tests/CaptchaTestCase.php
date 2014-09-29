@@ -36,7 +36,7 @@ class CaptchaTestCase extends CaptchaBaseWebTestCase {
     $this->drupalLogout();
 
     // Set a CAPTCHA on login form.
-    captcha_set_form_id_setting('user_login_form', 'captcha/Math');
+    captcha_set_form_id_setting('user_login_form', 'math');
 
     // Check if there is a CAPTCHA on the login form (look for the title).
     $this->drupalGet('');
@@ -192,7 +192,7 @@ class CaptchaTestCase extends CaptchaBaseWebTestCase {
    */
   public function testCaptchaOnLoginBlockOnAdminPagesIssue893810() {
     // Set a CAPTCHA on login block form.
-    captcha_set_form_id_setting('user_login_form', 'captcha/Math');
+    captcha_set_form_id_setting('user_login_form', 'math');
 
     // Check if there is a CAPTCHA on home page.
     // @todo This assumes standard profile login form block, manually add it?

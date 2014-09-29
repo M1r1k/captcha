@@ -204,7 +204,7 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     // Check image_captcha_image_allowed_chars for spaces.
-    if (preg_match('/\s/', $form_state->getValue('image_captcha_image_allowed_chars')) {
+    if (preg_match('/\s/', $form_state->getValue('image_captcha_image_allowed_chars'))) {
       $form_state->setErrorByName('image_captcha_image_allowed_chars', t('The list of characters to use should not contain spaces.'));
     }
 
@@ -244,7 +244,7 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     if (!isset($form['image_captcha_font_settings']['no_ttf_support'])) {
       // Filter the image_captcha fonts array to pick out the selected ones.
-      $fonts = array_filter($form_state->getValue('image_captcha_fonts');
+      $fonts = array_filter($form_state->getValue('image_captcha_fonts'));
       $this->config('image_captcha.settings')->set('image_captcha_fonts', $fonts)->save();
     }
 

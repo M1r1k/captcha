@@ -108,7 +108,7 @@ class CaptchaAdminTestCase extends CaptchaBaseWebTestCase {
    *   The form_id of the form to investigate.
    * @param string $challenge_type
    *   What the challenge type should be:
-   *   NULL, 'none', 'default' or something like 'captcha/Math'.
+   *   NULL, 'none', 'default' or something like 'math'.
    */
   protected function assertCaptchaSetting($form_id, $challenge_type) {
     $result = captcha_get_form_id_setting(self::COMMENT_FORM_ID, TRUE);
@@ -152,7 +152,7 @@ class CaptchaAdminTestCase extends CaptchaBaseWebTestCase {
     $this->clickLink(t('Place a CAPTCHA here for untrusted users.'));
 
     // Enable Math CAPTCHA.
-    $edit = array('captcha_type' => 'captcha/Math');
+    $edit = array('captcha_type' => 'math');
     $this->drupalPostForm($this->getUrl(), $edit, t('Save'));
 
     // Check if returned to original comment form.
@@ -165,7 +165,7 @@ class CaptchaAdminTestCase extends CaptchaBaseWebTestCase {
       'Enable a challenge through the CAPTCHA admin links', 'CAPTCHA');
 
     // Check if CAPTCHA was successfully enabled (through API).
-    $this->assertCaptchaSetting(self::COMMENT_FORM_ID, 'captcha/Math');
+    $this->assertCaptchaSetting(self::COMMENT_FORM_ID, 'math');
 
     // Edit challenge type through CAPTCHA admin links.
     $this->clickLink(t('change'));
@@ -210,7 +210,7 @@ class CaptchaAdminTestCase extends CaptchaBaseWebTestCase {
    */
   public function noTestUntrustedUserPosting() {
     // Set CAPTCHA on comment form.
-    captcha_set_form_id_setting(self::COMMENT_FORM_ID, 'captcha/Math');
+    captcha_set_form_id_setting(self::COMMENT_FORM_ID, 'math');
 
     // Create a node with comments enabled.
     $node = $this->drupalCreateNode();
@@ -238,7 +238,7 @@ class CaptchaAdminTestCase extends CaptchaBaseWebTestCase {
    */
   public function testXssOnCaptchaDescription() {
     // Set CAPTCHA on user register form.
-    captcha_set_form_id_setting('user_register', 'captcha/Math');
+    captcha_set_form_id_setting('user_register', 'math');
 
     // Put Javascript snippet in CAPTCHA description.
     $this->drupalLogin($this->adminUser);
@@ -257,7 +257,7 @@ class CaptchaAdminTestCase extends CaptchaBaseWebTestCase {
    */
   public function testCaptchaPlacementCacheClearing() {
     // Set CAPTCHA on user register form.
-    captcha_set_form_id_setting('user_register_form', 'captcha/Math');
+    captcha_set_form_id_setting('user_register_form', 'math');
     // Visit user register form to fill the CAPTCHA placement cache.
     $this->drupalGet('user/register');
     // Check if there is CAPTCHA placement cache.

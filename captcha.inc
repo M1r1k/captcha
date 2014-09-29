@@ -183,7 +183,7 @@ function _captcha_parse_captcha_type($captcha_type) {
     return array(NULL, NULL);
   }
   if ($captcha_type == 'default') {
-    $captcha_type = \Drupal::config('captcha.settings')->get('default_challenge', 'captcha/Math');
+    $captcha_type = \Drupal::config('captcha.settings')->get('default_challenge');
   }
   return explode('/', $captcha_type);
 }

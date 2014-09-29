@@ -7,8 +7,9 @@
 
 namespace Drupal\captcha\Plugin\Captcha;
 
-use Drupal\captcha\Plugin\Captcha\CaptchaBase;
+use Drupal\captcha\Plugin\CaptchaInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\PluginBase;
 
 /**
  * Class MathCaptcha.
@@ -20,7 +21,7 @@ use Drupal\Core\Form\FormStateInterface;
  *   title = @Translation("Math Captcha")
  * )
  */
-class MathCaptcha extends CaptchaBase {
+class MathCaptcha extends PluginBase implements CaptchaInterface {
 
   /**
    * First addendum for math expression.
@@ -105,4 +106,5 @@ class MathCaptcha extends CaptchaBase {
   public function getSolutionValue() {
     return $this->solution;
   }
+
 }
