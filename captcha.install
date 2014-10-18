@@ -6,6 +6,7 @@
  */
 
 use Drupal\captcha\Entity\CaptchaPoint;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_schema().
@@ -136,11 +137,11 @@ function captcha_install() {
 
   // Be friendly to your users: what to do after install?
   drupal_set_message(\Drupal::translation()->translate('You can now <a href="!captcha_admin">configure the CAPTCHA module</a> for your site.',
-    array('!captcha_admin' => url('admin/config/people/captcha'))), 'status');
+    array('!captcha_admin' => Url::fromRoute('captcha_settings'))), 'status');
 
   // Explain to users that page caching may be disabled.
   if ($config = \Drupal::config('system.performance')->get('cache.page.use_internal') != 0) {
     drupal_set_message(\Drupal::translation()->translate('Note that the CAPTCHA module disables <a href="!performance_admin">page caching</a> of pages that include a CAPTCHA challenge.',
-      array('!performance_admin' => url('admin/config/development/performance'))), 'warning');
+      array('!performance_admin' => Url::fromRoute('system.performance_settings'))), 'warning');
   }
 }
