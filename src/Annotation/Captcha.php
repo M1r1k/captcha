@@ -18,7 +18,7 @@ use Drupal\Component\Annotation\Plugin;
  *
  * @Annotation
  */
-class CaptchaPlugin extends Plugin {
+class Captcha extends Plugin {
 
   /**
    * A unique identifier for the search plugin.

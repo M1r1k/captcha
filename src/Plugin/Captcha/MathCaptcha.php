@@ -12,11 +12,9 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
 
 /**
- * Class MathCaptcha.
+ * MathCaptcha class.
  *
- * @package Drupal\captcha\Plugin\Captcha
- *
- * @CaptchaPlugin(
+ * @Captcha(
  *   id = "math",
  *   title = @Translation("Math Captcha")
  * )
