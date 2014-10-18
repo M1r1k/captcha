@@ -153,7 +153,7 @@ class CaptchaSettingsForm extends ConfigFormBase {
     $form['enable_stats'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Enable statistics'),
-      '#description' => $this->t('Keep CAPTCHA related counters in the <a href="!statusreport">status report</a>. Note that this comes with a performance penalty as updating the counters results in clearing the variable cache.', array('!statusreport' => Url::fromRoute('system.status'))),
+      '#description' => $this->t('Keep CAPTCHA related counters in the <a href="!statusreport">status report</a>. Note that this comes with a performance penalty as updating the counters results in clearing the variable cache.', array('!statusreport' => Url::fromRoute('system.status')->toString())),
       '#default_value' => $config->get('enable_stats'),
     );
 
@@ -161,7 +161,7 @@ class CaptchaSettingsForm extends ConfigFormBase {
     $form['log_wrong_responses'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Log wrong responses'),
-      '#description' => $this->t('Report information about wrong responses to the <a href="!dblog">log</a>.', array('!dblog' => Url::fromRoute('dblog.overview'))),
+      '#description' => $this->t('Report information about wrong responses to the <a href="!dblog">log</a>.', array('!dblog' => Url::fromRoute('dblog.overview')->toString())),
       '#default_value' => $config->get('log_wrong_responses'),
     );
 

@@ -292,13 +292,13 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
       $config->get('image_captcha_fonts_preview_map_cache', $fonts);
       // Put these fonts with preview image in the list.
       foreach ($fonts as $token => $font) {
-        $img_src = check_url(Url::fromRoute('image_captcha.font_preview', array('token' => $token)));
+        $img_src = check_url(Url::fromRoute('image_captcha.font_preview', array('token' => $token))->toString());
         $title = t('Font preview of @font (@file)', array('@font' => $font->name, '@file' => $font->uri));
         $available_fonts[$font->uri] = '<img src="' . $img_src . '" alt="' . $title . '" title="' . $title . '" />';
       }
 
       // Append the PHP built-in font at the end.
-      $img_src = check_url(Url::fromRoute('image_captcha.font_preview', array('token' => 'BUILTIN')));
+      $img_src = check_url(Url::fromRoute('image_captcha.font_preview', array('token' => 'BUILTIN'))->toString());
       $title = t('Preview of built-in font');
       $available_fonts['BUILTIN'] = t('PHP built-in font: !font_preview',
         array('!font_preview' => '<img src="' . $img_src . '" alt="' . $title . '" title="' . $title . '" />')
