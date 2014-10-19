@@ -51,7 +51,7 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
 
     $form['image_captcha_example']['image'] = array(
       '#type' => 'captcha',
-      '#captcha_type' => 'image_captcha/Image',
+      '#captcha_type' => 'image',
       '#captcha_admin_mode' => TRUE,
     );
 
@@ -212,11 +212,11 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
     if (!isset($form['image_captcha_font_settings']['no_ttf_support'])) {
       // Check the selected fonts.
       // Filter the image_captcha fonts array to pick out the selected ones.
-      $fonts = array_filter($form_state['values']['image_captcha_fonts']);
+      $fonts = array_filter($form_state->getValue('image_captcha_fonts'));
       if (count($fonts) < 1) {
         $form_state->setErrorByName('image_captcha_fonts', t('You need to select at least one font.'));
       }
-      if ($form_state['values']['image_captcha_fonts']['BUILTIN']) {
+      if ($form_state->getValue('image_captcha_fonts')['BUILTIN']) {
         // With the built in font, only latin2 characters should be used.
         if (preg_match('/[^a-zA-Z0-9]/', $form_state->getValue('image_captcha_image_allowed_chars'))) {
           $form_state->setErrorByName('image_captcha_image_allowed_chars', t('The built-in font only supports Latin2 characters. Only use "a" to "z" and numbers.'));
@@ -229,10 +229,10 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
     }
 
     // Check color settings.
-    if (!preg_match('/^#([0-9a-fA-F]{3}){1,2}$/', $form_state['values']['image_captcha_background_color'])) {
+    if (!preg_match('/^#([0-9a-fA-F]{3}){1,2}$/', $form_state->getValue('image_captcha_background_color'))) {
       $form_state->setErrorByName('image_captcha_background_color', t('Background color is not a valid hexadecimal color value.'));
     }
-    if (!preg_match('/^#([0-9a-fA-F]{3}){1,2}$/', $form_state['values']['image_captcha_foreground_color'])) {
+    if (!preg_match('/^#([0-9a-fA-F]{3}){1,2}$/', $form_state->getValue('image_captcha_foreground_color'))) {
       $form_state->setErrorByName('image_captcha_foreground_color', t('Text color is not a valid hexadecimal color value.'));
     }
 
@@ -317,7 +317,6 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
         ),
         '#options' => $available_fonts,
         '#attributes' => array('class' => array('image_captcha_admin_fonts_selection')),
-        '#process' => array('form_process_checkboxes'),
       );
 
       $form['image_captcha_font_size'] = array(

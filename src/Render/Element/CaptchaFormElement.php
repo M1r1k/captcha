@@ -110,13 +110,13 @@ class CaptchaFormElement extends FormElement {
     //   preview), useful in _captcha_get_posted_captcha_info().
     // - $element['#captcha_info'], for post processing functions that do not
     //   receive a $form_state argument (e.g. the pre_render callback).
-    $form_state['captcha_info'] = array(
+    $form_state->set('captcha_info', array(
       'this_form_id' => $this_form_id,
       'posted_form_id' => $posted_form_id,
       'captcha_sid' => $captcha_sid,
       'module' => $captcha_type_module,
       'captcha_type' => $captcha_type_challenge,
-    );
+    ));
     $element['#captcha_info'] = array(
       'form_id' => $this_form_id,
       'captcha_sid' => $captcha_sid,

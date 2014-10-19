@@ -15,7 +15,7 @@ interface CaptchaInterface extends PluginInspectionInterface {
   /**
    * @todo place docs here.
    */
-  public function getSolutionValue();
+  public function getSolutionValue($captcha_sid);
 
   /**
    * Provide form item that contains captcha question.
@@ -31,7 +31,7 @@ interface CaptchaInterface extends PluginInspectionInterface {
    * @return array
    *   Piece of form that contains question.
    */
-  public function getQuestionFormElement(array $form, FormStateInterface $form_state);
+  public function getQuestionFormElement(array $form, FormStateInterface $form_state, $captcha_sid);
 
   /**
    * Provide form item that contains input for captcha answer.
@@ -47,16 +47,6 @@ interface CaptchaInterface extends PluginInspectionInterface {
    *   Piece of form that contains question.
    */
   public function getAnswerFormElement(array $form, FormStateInterface $form_state);
-
-  /**
-   * Contains captcha challenge validation logic.
-   *
-   * @param array $values
-   *   Values array from Form State.
-   *
-   * @return boolean
-   */
-  public static function validate(array $values);
 
   /**
    * Get description of Captcha challenge.

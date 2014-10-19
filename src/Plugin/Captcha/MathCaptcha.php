@@ -56,7 +56,7 @@ class MathCaptcha extends PluginBase implements CaptchaInterface {
   /**
    * {@inheritdoc}
    */
-  public function getQuestionFormElement(array $form, FormStateInterface $form_state) {
+  public function getQuestionFormElement(array $form, FormStateInterface $form_state, $captcha_sid) {
     return array(
       '#markup' => $this->firstAddendum . ' + ' . $this->secondAddendum
     );
@@ -83,13 +83,6 @@ class MathCaptcha extends PluginBase implements CaptchaInterface {
   /**
    * {@inheritdoc}
    */
-  public static function validate(array $values) {
-    return $values['sum'] == TRUE;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getChallengeDescription() {
     return $this->t('Solve this simple math problem and enter the result. E.g. for 1+3, enter 4.');
   }
@@ -101,7 +94,7 @@ class MathCaptcha extends PluginBase implements CaptchaInterface {
   /**
    * @todo place docs here.
    */
-  public function getSolutionValue() {
+  public function getSolutionValue($captcha_sid) {
     return $this->solution;
   }
 

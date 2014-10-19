@@ -26,11 +26,6 @@ abstract class CaptchaBase extends PluginBase implements CaptchaInterface {
   /**
    * {@inheritdoc}
    */
-  abstract public static function validate(array $values);
-
-  /**
-   * {@inheritdoc}
-   */
   abstract public function getChallengeDescription();
 
   abstract public function getQuestionDescription();
