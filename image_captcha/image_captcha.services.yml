@@ -1,3 +1,15 @@
 services:
  controller.image_captcha:
   class: Drupal\image_captcha\Controller\CaptchaImageGenerator
+
+ image_captcha.generator:
+   class: Drupal\image_captcha\Generator\ImageCaptchaGenerator
+   arguments:
+     - @gregwar_captcha.captcha_builder
+     - @gregwar_captcha.phrase_builder
+
+ gregwar_captcha.captcha_builder:
+   class: Gregwar\Captcha\CaptchaBuilder
+
+ gregwar_captcha.phrase_builder:
+   class: Gregwar\Captcha\PhraseBuilder
