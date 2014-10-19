@@ -30,7 +30,7 @@ class CaptchaPluginManager extends DefaultPluginManager {
    *   The module handler to invoke the alter hook with.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/Captcha', $namespaces, $module_handler, 'Drupal\captcha\CaptchaPointInterface', 'Drupal\captcha\Annotation\Captcha');
+    parent::__construct('Plugin/Captcha', $namespaces, $module_handler, 'Drupal\captcha\Plugin\CaptchaInterface', 'Drupal\captcha\Annotation\Captcha');
     $this->setCacheBackend($cache_backend, 'captcha_plugins');
     $this->alterInfo('captcha_plugin');
   }
