@@ -1,7 +1,5 @@
 base:
   version: 1.0
-  js:
-    image_captcha.js: {}
   css:
     all:
       image_captcha.css: {}

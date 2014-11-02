@@ -166,6 +166,11 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
       '#title' => t('Smooth distortion'),
       '#default_value' => $config->get('image_captcha_bilinear_interpolation'),
       '#description' => t('This option enables bilinear interpolation of the distortion which makes the image look smoother, but it is more CPU intensive.'),
+      '#states' => array(
+        'invisible' => array(
+          ':input[name="image_captcha_distortion_amplitude"]' => array('value' => 0),
+        ),
+      ),
     );
 
     $form['image_captcha_distortion_and_noise']['image_captcha_dot_noise'] = array(
@@ -195,6 +200,13 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
         10 => '10 - ' . t('severe'),
       ),
       '#default_value' => (int) $config->get('image_captcha_noise_level'),
+      '#states' => array(
+        'visible' => array(
+          array(
+            ':input[name="image_captcha_dot_noise"], :input[name="image_captcha_line_noise"]' => array('checked' => TRUE),
+          )
+        ),
+      ),
     );
 
     return parent::buildForm($form, $form_state);
