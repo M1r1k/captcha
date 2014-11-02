@@ -116,6 +116,11 @@ class CaptchaSettingsForm extends ConfigFormBase {
       '#default_value' => _captcha_get_description(),
       '#maxlength' => 256,
       '#attributes' => array('id' => 'edit-captcha-description-wrapper'),
+      '#states' => array(
+        'visible' => array(
+          ':input[name="add_captcha_description"]' => array('checked' => TRUE),
+        ),
+      ),
     );
 
     // Option for case sensitive/insensitive validation of the responses.
