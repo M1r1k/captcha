@@ -10,6 +10,7 @@ namespace Drupal\captcha\Form;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -74,7 +75,9 @@ class CaptchaExamplesForm extends ConfigFormBase {
               '#title' => t('Challenge %challenge by module %module', array('%challenge' => $challenge, '%module' => $module)),
               'challenge' => _captcha_generate_example_challenge($module, $challenge),
               'more_examples' => array(
-                '#markup' => l(t('10 more examples of this challenge.'), "admin/config/people/captcha/examples/$module/$challenge"),
+                '#markup' => \Drupal::l(
+                  t('10 more examples of this challenge.'),
+                  Url::fromRoute('captcha_examples'), array('module' => $module, 'challenge' => $challenge)),
               ),
             );
           }
