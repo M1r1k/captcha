@@ -77,7 +77,7 @@ before_script:
   - cd drupal
   # Install Drupal.
   - php -d sendmail_path=`which true` ~/.composer/vendor/bin/drush.php --yes site-install --db-url=mysql://root:@127.0.0.1/drupal testing
-
+  - composer require gregwar/captcha:1.0.11
   # Reference and enable rules in build site.
   - ln -s $TESTDIR modules/$MODULE_NAME
   - drush --yes pm-enable simpletest $MODULE_NAME
