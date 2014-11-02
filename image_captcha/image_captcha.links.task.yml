@@ -1,0 +1,4 @@
+image_captcha.settings:
+  route_name: image_captcha.settings
+  title: 'Image CAPTCHA'
+  base_route: captcha_settings
