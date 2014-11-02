@@ -51,7 +51,7 @@ class CaptchaSessionReuseAttackTestCase extends CaptchaBaseWebTestCase {
     // Create commentable node.
     $node = $this->drupalCreateNode();
     // Set Test CAPTCHA on comment form.
-    captcha_set_form_id_setting(self::COMMENT_FORM_ID, 'captcha/Math');
+    captcha_set_form_id_setting(self::COMMENT_FORM_ID, 'math');
     \Drupal::config('captcha.settings')->set('persistence', CAPTCHA_PERSISTENCE_SKIP_ONCE_SUCCESSFUL_PER_FORM_INSTANCE)->save();
 
     // Log in as normal user.
@@ -91,7 +91,7 @@ class CaptchaSessionReuseAttackTestCase extends CaptchaBaseWebTestCase {
    */
   public function testCaptchaSessionReuseAttackDetectionOnNodeForm() {
     // Set CAPTCHA on page form.
-    captcha_set_form_id_setting('page_node_form', 'captcha/Math');
+    captcha_set_form_id_setting('page_node_form', 'math');
     \Drupal::config('captcha.settings')->set('persistence', CAPTCHA_PERSISTENCE_SKIP_ONCE_SUCCESSFUL_PER_FORM_INSTANCE)->save();
 
     // Log in as normal user.
@@ -133,7 +133,7 @@ class CaptchaSessionReuseAttackTestCase extends CaptchaBaseWebTestCase {
    */
   public function testCaptchaSessionReuseAttackDetectionOnLoginForm() {
     // Set CAPTCHA on login form.
-    captcha_set_form_id_setting('user_login_form', 'captcha/Math');
+    captcha_set_form_id_setting('user_login_form', 'math');
     \Drupal::config('captcha.settings')->set('persistence', CAPTCHA_PERSISTENCE_SKIP_ONCE_SUCCESSFUL_PER_FORM_INSTANCE)->save();
 
     // Go to log in form.
@@ -182,7 +182,7 @@ class CaptchaSessionReuseAttackTestCase extends CaptchaBaseWebTestCase {
   public function testMultipleCaptchaProtectedFormsOnOnePage() {
     // Set Test CAPTCHA on comment form and login block.
     captcha_set_form_id_setting(self::COMMENT_FORM_ID, 'captcha/Test');
-    captcha_set_form_id_setting('user_login_form', 'captcha/Math');
+    captcha_set_form_id_setting('user_login_form', 'math');
     $this->allowCommentPostingForAnonymousVisitors();
 
     // Create a node with comments enabled.

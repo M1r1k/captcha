@@ -10,6 +10,7 @@ namespace Drupal\image_captcha\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\Language;
+use Drupal\Core\Url;
 
 /**
  * Displays the pants settings form.
@@ -50,7 +51,7 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
 
     $form['image_captcha_example']['image'] = array(
       '#type' => 'captcha',
-      '#captcha_type' => 'image_captcha/Image',
+      '#captcha_type' => 'image',
       '#captcha_admin_mode' => TRUE,
     );
 
@@ -204,18 +205,18 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     // Check image_captcha_image_allowed_chars for spaces.
-    if (preg_match('/\s/', $form_state->getValue('image_captcha_image_allowed_chars')) {
+    if (preg_match('/\s/', $form_state->getValue('image_captcha_image_allowed_chars'))) {
       $form_state->setErrorByName('image_captcha_image_allowed_chars', t('The list of characters to use should not contain spaces.'));
     }
 
     if (!isset($form['image_captcha_font_settings']['no_ttf_support'])) {
       // Check the selected fonts.
       // Filter the image_captcha fonts array to pick out the selected ones.
-      $fonts = array_filter($form_state['values']['image_captcha_fonts']);
+      $fonts = array_filter($form_state->getValue('image_captcha_fonts'));
       if (count($fonts) < 1) {
         $form_state->setErrorByName('image_captcha_fonts', t('You need to select at least one font.'));
       }
-      if ($form_state['values']['image_captcha_fonts']['BUILTIN']) {
+      if ($form_state->getValue('image_captcha_fonts')['BUILTIN']) {
         // With the built in font, only latin2 characters should be used.
         if (preg_match('/[^a-zA-Z0-9]/', $form_state->getValue('image_captcha_image_allowed_chars'))) {
           $form_state->setErrorByName('image_captcha_image_allowed_chars', t('The built-in font only supports Latin2 characters. Only use "a" to "z" and numbers.'));
@@ -228,10 +229,10 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
     }
 
     // Check color settings.
-    if (!preg_match('/^#([0-9a-fA-F]{3}){1,2}$/', $form_state['values']['image_captcha_background_color'])) {
+    if (!preg_match('/^#([0-9a-fA-F]{3}){1,2}$/', $form_state->getValue('image_captcha_background_color'))) {
       $form_state->setErrorByName('image_captcha_background_color', t('Background color is not a valid hexadecimal color value.'));
     }
-    if (!preg_match('/^#([0-9a-fA-F]{3}){1,2}$/', $form_state['values']['image_captcha_foreground_color'])) {
+    if (!preg_match('/^#([0-9a-fA-F]{3}){1,2}$/', $form_state->getValue('image_captcha_foreground_color'))) {
       $form_state->setErrorByName('image_captcha_foreground_color', t('Text color is not a valid hexadecimal color value.'));
     }
 
@@ -244,7 +245,7 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     if (!isset($form['image_captcha_font_settings']['no_ttf_support'])) {
       // Filter the image_captcha fonts array to pick out the selected ones.
-      $fonts = array_filter($form_state->getValue('image_captcha_fonts');
+      $fonts = array_filter($form_state->getValue('image_captcha_fonts'));
       $this->config('image_captcha.settings')->set('image_captcha_fonts', $fonts)->save();
     }
 
@@ -291,13 +292,13 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
       $config->get('image_captcha_fonts_preview_map_cache', $fonts);
       // Put these fonts with preview image in the list.
       foreach ($fonts as $token => $font) {
-        $img_src = check_url(url('admin/config/people/captcha/image_captcha/font_preview/' . $token));
+        $img_src = check_url(Url::fromRoute('image_captcha.font_preview', array('token' => $token))->toString());
         $title = t('Font preview of @font (@file)', array('@font' => $font->name, '@file' => $font->uri));
         $available_fonts[$font->uri] = '<img src="' . $img_src . '" alt="' . $title . '" title="' . $title . '" />';
       }
 
       // Append the PHP built-in font at the end.
-      $img_src = check_url(url('admin/config/people/captcha/image_captcha/font_preview/BUILTIN'));
+      $img_src = check_url(Url::fromRoute('image_captcha.font_preview', array('token' => 'BUILTIN'))->toString());
       $title = t('Preview of built-in font');
       $available_fonts['BUILTIN'] = t('PHP built-in font: !font_preview',
         array('!font_preview' => '<img src="' . $img_src . '" alt="' . $title . '" title="' . $title . '" />')
@@ -316,7 +317,6 @@ class ImageCaptchaSettingsForm extends ConfigFormBase {
         ),
         '#options' => $available_fonts,
         '#attributes' => array('class' => array('image_captcha_admin_fonts_selection')),
-        '#process' => array('form_process_checkboxes'),
       );
 
       $form['image_captcha_font_size'] = array(

@@ -16,8 +16,8 @@ use Drupal\captcha\CaptchaPointInterface;
  * @ConfigEntityType(
  *   id = "captcha_point",
  *   label = @Translation("Captcha Point"),
- *   controllers = {
- *     "list_builder" = "Drupal\captcha\Controller\CaptchaPointListBuilder",
+ *   handlers = {
+ *     "list_builder" = "Drupal\captcha\CaptchaPointListBuilder",
  *     "form" = {
  *       "add" = "Drupal\captcha\Form\CaptchaPointForm",
  *       "edit" = "Drupal\captcha\Form\CaptchaPointForm",

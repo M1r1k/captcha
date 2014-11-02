@@ -5,7 +5,7 @@
  * Contains \Drupal\captcha\Controller\CaptchaPointListBuilder.
  */
 
-namespace Drupal\captcha\Controller;
+namespace Drupal\captcha;
 
 use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
