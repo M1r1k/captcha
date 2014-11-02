@@ -75,17 +75,21 @@ before_script:
   # Download Drupal 8 core.
   - git clone --depth 1 --branch $DRUPAL_VERSION $DRUPAL_REPO drupal
   - cd drupal
+
+  - ln -s $TESTDIR modules/$MODULE_NAME
+
+  # Run the Coder sniffer.
+  - phpcs --report=full --standard=Drupal ./modules/$MODULE_NAME
+
+  # Run the PHPUnit tests.
+  - ./core/vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/$MODULE_NAME
+
   # Install Drupal.
   - php -d sendmail_path=`which true` ~/.composer/vendor/bin/drush.php --yes site-install --db-url=mysql://root:@127.0.0.1/drupal testing
   - composer require gregwar/captcha:1.0.11
   # Reference and enable rules in build site.
-  - ln -s $TESTDIR modules/$MODULE_NAME
   - drush --yes pm-enable simpletest $MODULE_NAME
 
 script:
-  # Run the Coder sniffer for Flag.
-  - phpcs --report=full --standard=Drupal ./modules/$MODULE_NAME
   # Run the Simpletests for Rules.
   - php ./core/scripts/run-tests.sh --php `which php` --concurrency 12 --url http://localhost/ --verbose --color "$MODULE_TEST_GROUP"
-  # Run the PHPUnit tests.
-  - ./core/vendor/phpunit/phpunit/phpunit -c ./core/phpunit.xml.dist ./modules/$MODULE_NAME
