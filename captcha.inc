@@ -38,32 +38,6 @@ function captcha_set_form_id_setting($form_id, $captcha_type) {
 }
 
 /**
- * Get the CAPTCHA setting for a given form_id.
- *
- * @param string $form_id
- *   The form_id to query for.
- * @param bool $symbolic
- *   Flag to return as (symbolic) strings instead of object.
- *
- * @return NULL|CaptchaPoint
- *   NULL if no setting is known
- *   captcha point object with fields 'module' and 'captcha_type'.
- *   If argument $symbolic is true, returns 'none', 'default'
- *   or in the form 'captcha/Math'.
- */
-function captcha_get_form_id_setting($form_id, $symbolic = FALSE) {
-  /* @var CaptchaPoint $captchaPoint */
-  $captcha_point = CaptchaPoint::load($form_id);
-
-  if ($symbolic) {
-    $captcha_point = $captcha_point->getCaptchaType();
-  }
-
-  return $captcha_point;
-}
-
-
-/**
  * Helper function for generating a new CAPTCHA session.
  *
  * @param string $form_id
