@@ -61,7 +61,7 @@ class ImageCaptchaGenerator {
 
     $this->builder->setInterpolation($options['interpolation']);
 
-    $fingerprint = isset($options['fingerprint']) ? $options['fingerprint'] : null;
+    $fingerprint = isset($options['fingerprint']) ? $options['fingerprint'] : NULL;
 
     $content = $this->builder->build(
       $options['width'],
@@ -74,21 +74,22 @@ class ImageCaptchaGenerator {
       $options['fingerprint'] = $this->builder->getFingerprint();
     }
 
-//    if (!$options['as_file']) {
-      ob_start();
-      imagejpeg($content, null, $options['quality']);
+    //    if (!$options['as_file']) {
+    ob_start();
+    imagejpeg($content, NULL, $options['quality']);
 
-      return ob_get_clean();
-//    }
+    return ob_get_clean();
+    //    }
 
-//    return $this->imageFileHandler->saveAsFile($content);
+    //    return $this->imageFileHandler->saveAsFile($content);
   }
 
   public function getPhrase($options) {
     // Get the phrase that we'll use for this image
     if ($options['keep_value'] && isset($options['phrase'])) {
       $phrase = $options['phrase'];
-    } else {
+    }
+    else {
       $phrase = $this->phraseBuilder->build($options['length'], $options['charset']);
       $options['phrase'] = $phrase;
     }
@@ -99,8 +100,7 @@ class ImageCaptchaGenerator {
   /**
    * Sets the phrase to the builder
    */
-  public function setPhrase($phrase)
-  {
+  public function setPhrase($phrase) {
     $this->builder->setPhrase($phrase);
   }
 

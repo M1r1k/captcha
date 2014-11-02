@@ -67,27 +67,27 @@ class CaptchaImageGeneratorController implements ContainerInjectionInterface {
   }
 
   public function image(Request $request) {
-//    $options = $this->container->getParameter('gregwar_captcha.config');
-//    $session = $this->get('session');
-//    $whitelistKey = $options['whitelist_key'];
-//    $isOk = false;
-//
-//    if ($session->has($whitelistKey)) {
-//      $keys = $session->get($whitelistKey);
-//      if (is_array($keys) && in_array($key, $keys)) {
-//        $isOk = true;
-//      }
-//    }
-//
-//    if (!$isOk) {
-//      throw $this->createNotFoundException('Unable to generate a captcha via an URL with this session key.');
-//    }
+    //    $options = $this->container->getParameter('gregwar_captcha.config');
+    //    $session = $this->get('session');
+    //    $whitelistKey = $options['whitelist_key'];
+    //    $isOk = false;
+    //
+    //    if ($session->has($whitelistKey)) {
+    //      $keys = $session->get($whitelistKey);
+    //      if (is_array($keys) && in_array($key, $keys)) {
+    //        $isOk = true;
+    //      }
+    //    }
+    //
+    //    if (!$isOk) {
+    //      throw $this->createNotFoundException('Unable to generate a captcha via an URL with this session key.');
+    //    }
 
     /* @var \Gregwar\CaptchaBundle\Generator\CaptchaGenerator $generator */
-//    $generator = $this->container->get('gregwar_captcha.generator');
-//
-//    $persistedOptions = $session->get($key, array());
-//    $options = array_merge($options, $persistedOptions);
+    //    $generator = $this->container->get('gregwar_captcha.generator');
+    //
+    //    $persistedOptions = $session->get($key, array());
+    //    $options = array_merge($options, $persistedOptions);
     $options = array(
       'width' => 1200,
       'height' => 600,
@@ -118,12 +118,12 @@ class CaptchaImageGeneratorController implements ContainerInjectionInterface {
     $phrase = $this->generator->getPhrase($options);
     $this->generator->setPhrase($phrase);
     $persistedOptions['phrase'] = $phrase;
-//    $session->set($key, $persistedOptions);
+    //    $session->set($key, $persistedOptions);
 
     $response = new Response($this->generator->generate($options));
     $response->headers->set('Content-type', 'image/jpeg');
     $response->headers->set('Pragma', 'no-cache');
-    $response->headers->set('Cache-Control','no-cache');
+    $response->headers->set('Cache-Control', 'no-cache');
 
     return $response;
   }

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\image_captcha\Plugin\Captcha\ImageCaptcha.
+ */
 
 namespace Drupal\image_captcha\Plugin\Captcha;
 

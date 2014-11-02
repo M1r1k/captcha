@@ -53,7 +53,7 @@ class CaptchaFormElement extends FormElement {
   }
 
   public function process(array $element, FormStateInterface $form_state, array $complete_form) {
-// Add captcha.inc file
+    // Add captcha.inc file
     module_load_include('inc', 'captcha');
 
     // Add Javascript for general CAPTCHA functionality.
