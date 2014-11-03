@@ -14,7 +14,11 @@ Installation:
   modules directory from your website (typically sites/all/modules).
 
 Dependencies:
-  The basic CAPTCHA module has no dependencies, nothing special is required.
+  The basic CAPTCHA module requires
+  PHP Captcha library Gregwar/Captcha (https://github.com/Gregwar/Captcha).
+  To install it add contains of captcha/composer.json to
+  your composer.json file or run:
+    composer require gregwar/captcha:1.0.11
 
 Conflicts/known issues:
   CAPTCHA and page caching do not work together currently.

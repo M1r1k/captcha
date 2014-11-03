@@ -217,7 +217,7 @@ function _captcha_get_captcha_placement($form_id, $form) {
       }
       else {
         // Use NULL when no buttons were found.
-        $placement = NULL;
+        $placement = array();
       }
     }
 
